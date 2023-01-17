@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
         _jump = _playerInputActions.Player.Jump;
         _move.Enable();
         _look.Enable();
-        _look.Enable();
+        _jump.Enable();
         
         // Subscribe to all events
         _jump.performed += OnJump;
