@@ -2,13 +2,20 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class Player : MonoBehaviour
 {
     /* ---- INPUT SYSTEM ---- */
     private PlayerInputActions _playerInputActions;
     private InputAction _move;
     private InputAction _look;
     private InputAction _jump;
+    
+    /* ---- PLAYER STATES ---- */
+    private IState _state;
+
+    public StandingState StandingState;
+    public CrouchingState CrouchingState;
+    public JumpingState JumpingState;
     
     /* ---- PLAYER LOOK ---- */
     [Header("PLAYER LOOK")]
@@ -21,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private float _pitch = 0f;
     private Quaternion _bodyStartOrientation;
     private Quaternion _headStartOrientation;
-    
+
     private void Awake()
     {
         // Instantiate a new instance of the input action asset
@@ -37,6 +44,14 @@ public class PlayerController : MonoBehaviour
         // Lock and hide the cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        
+        InitializeState(StandingState);
+    }
+
+    private void Update()
+    {
+        _state.HandleInput(this, _playerInputActions);
+        _state.LogicUpdate(this);
     }
 
     private void FixedUpdate()
@@ -44,6 +59,8 @@ public class PlayerController : MonoBehaviour
         // Handle player look
         Look();
         // Handle player movement
+        
+        _state.PhysicsUpdate(this);
         
     }
 
@@ -106,5 +123,19 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         throw new NotImplementedException();
+    }
+
+    public void InitializeState(IState startingState)
+    {
+        _state = startingState;
+        _state.Enter(this, _playerInputActions);
+    }
+
+    public void ChangeState(IState newState)
+    {
+        _state.Exit(this, _playerInputActions);
+
+        _state = newState;
+        _state.Enter(this, _playerInputActions);
     }
 }
