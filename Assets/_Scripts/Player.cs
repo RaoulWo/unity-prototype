@@ -1,141 +1,71 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
     /* ---- INPUT SYSTEM ---- */
     private PlayerInputActions _playerInputActions;
-    private InputAction _move;
-    private InputAction _look;
-    private InputAction _jump;
-    
+
     /* ---- PLAYER STATES ---- */
-    private IState _state;
+    private PlayerState _playerState;
 
-    public StandingState StandingState;
-    public CrouchingState CrouchingState;
     public JumpingState JumpingState;
-    
-    /* ---- PLAYER LOOK ---- */
-    [Header("PLAYER LOOK")]
-    [SerializeField] private float lookSensitivity = 90f;
-    [SerializeField] private float headUpperAngleLimit = 85f;
-    [SerializeField] private float headLowerAngleLimit = -80f;
+    public StandingState StandingState;
+    public WalkingState WalkingState;
 
-    private Transform _head;
-    private float _yaw = 0f;
-    private float _pitch = 0f;
-    private Quaternion _bodyStartOrientation;
-    private Quaternion _headStartOrientation;
-
+    #region "MonoBehaviour event functions"
     private void Awake()
     {
         // Instantiate a new instance of the input action asset
         _playerInputActions = new PlayerInputActions();
         
-        // Instantiate _head
-        _head = GetComponentInChildren<Camera>().transform;
-        
-        // Cache orientation of body and head
-        _bodyStartOrientation = transform.localRotation;
-        _headStartOrientation = _head.localRotation;
-        
-        // Lock and hide the cursor
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        
+        // Instantiate the player states
+        JumpingState = new JumpingState(this, _playerInputActions);
+        StandingState = new StandingState(this, _playerInputActions);
+        WalkingState = new WalkingState(this, _playerInputActions);
+
+        // Initialize the player in StandingState
         InitializeState(StandingState);
     }
 
     private void Update()
     {
-        _state.HandleInput(this, _playerInputActions);
-        _state.LogicUpdate(this);
+        _playerState.HandleInput();
+        _playerState.LogicUpdate();
     }
 
     private void FixedUpdate()
     {
-        // Handle player look
-        Look();
-        // Handle player movement
-        
-        _state.PhysicsUpdate(this);
-        
+        _playerState.PhysicsUpdate();
     }
 
     private void OnEnable()
     {
-        // Cache and enable Move, Look and Jump actions
-        _move = _playerInputActions.Player.Move;
-        _look = _playerInputActions.Player.Look;
-        _jump = _playerInputActions.Player.Jump;
-        _move.Enable();
-        _look.Enable();
-        _jump.Enable();
-        
-        // Subscribe to all events
-        _jump.performed += OnJump;
+        // Enable Move and Jump actions
+        _playerInputActions.Player.Move.Enable();
+        _playerInputActions.Player.Jump.Enable();
     }
 
     private void OnDisable()
     {
-        // Disable the Move, Look and Jump actions
-        _move.Disable();
-        _look.Disable();
-        _jump.Disable();
+        // Disable the Move and Jump actions
+        _playerInputActions.Player.Move.Disable();
+        _playerInputActions.Player.Jump.Disable();
         
-        // Unsubscribe to all events
-        _jump.performed -= OnJump;
+        // TODO Here ??? Unsubscribe to all events
+    }
+    #endregion
+
+    private void InitializeState(PlayerState startingPlayerState)
+    {
+        _playerState = startingPlayerState;
+        _playerState.Enter();
     }
 
-    private void OnJump(InputAction.CallbackContext context)
+    public void ChangeState(PlayerState newPlayerState)
     {
-        Debug.Log("OnJump is called");
-    }
+        _playerState.Exit();
 
-    private void Look()
-    {
-        // Cache the value of the Look action
-        var lookDir = _look.ReadValue<Vector2>();
-
-        // Scale the movement based on sensitivity and elapsed time
-        var horizontal = lookDir.x * Time.deltaTime * lookSensitivity;
-        var vertical = -lookDir.y * Time.deltaTime * lookSensitivity;
-
-        // Update the _yaw and _pitch values
-        _yaw += horizontal;
-        _pitch += vertical;
-
-        // Clamp _pitch
-        _pitch = Mathf.Clamp(_pitch, headLowerAngleLimit, headUpperAngleLimit);
-
-        // Compute a rotation for the body by a number of _yaw degrees around the y-axis
-        var bodyRotation = Quaternion.AngleAxis(_yaw, Vector3.up);
-        // Compute a rotation for the head by a number of _pitch degrees around the x-axis
-        var headRotation = Quaternion.AngleAxis(_pitch, Vector3.right);
-
-        // Create new rotations by combining them with their starting rotations
-        transform.localRotation = bodyRotation * _bodyStartOrientation;
-        _head.localRotation = headRotation * _headStartOrientation;
-    }
-
-    private void Move()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void InitializeState(IState startingState)
-    {
-        _state = startingState;
-        _state.Enter(this, _playerInputActions);
-    }
-
-    public void ChangeState(IState newState)
-    {
-        _state.Exit(this, _playerInputActions);
-
-        _state = newState;
-        _state.Enter(this, _playerInputActions);
+        _playerState = newPlayerState;
+        _playerState.Enter();
     }
 }
