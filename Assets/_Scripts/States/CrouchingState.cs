@@ -1,19 +1,19 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class StandingState : GroundedState
+public class CrouchingState : GroundedState
 {
     // The cached value of the input action Move
     private Vector2 _movementInput;
-
-    public StandingState(Player player, PlayerInputActions playerInputActions) 
+    
+    public CrouchingState(Player player, PlayerInputActions playerInputActions) 
         : base(player, playerInputActions)
     { }
     
     public override void Enter()
     {
-        Debug.Log("Enter StandingState");
-
+        Debug.Log("Enter CrouchingState");
+        
         PlayerInputActions.Player.Crouch.performed += OnCrouch;
         PlayerInputActions.Player.Run.performed += OnRun;
 
@@ -31,7 +31,7 @@ public class StandingState : GroundedState
     {
         if (_movementInput != Vector2.zero)
         {
-            Player.ChangeState(Player.WalkingState);
+            Player.ChangeState(Player.SneakingState);
         }
     }
 
@@ -42,7 +42,7 @@ public class StandingState : GroundedState
 
     public override void Exit()
     {
-        Debug.Log("Exit StandingState");
+        Debug.Log("Exit CrouchingState");
 
         PlayerInputActions.Player.Crouch.performed -= OnCrouch;
         PlayerInputActions.Player.Run.performed -= OnRun;
@@ -54,16 +54,15 @@ public class StandingState : GroundedState
     private void OnCrouch(InputAction.CallbackContext context)
     {
         Debug.Log("OnCrouch is called");
-
+        
         if (_movementInput == Vector2.zero)
         {
-            Player.ChangeState(Player.CrouchingState);
+            Player.ChangeState(Player.StandingState);
         }
         else
         {
-            Player.ChangeState(Player.SneakingState);
+            Player.ChangeState(Player.WalkingState);
         }
-        
     }
 
     private void OnRun(InputAction.CallbackContext context)

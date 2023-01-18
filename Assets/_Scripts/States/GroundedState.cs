@@ -39,5 +39,7 @@ public class GroundedState : PlayerState
     private void OnJump(InputAction.CallbackContext context)
     {
         Debug.Log("OnJump is called");
+        
+        Player.ChangeState(Player.JumpingState);
     }
 }
