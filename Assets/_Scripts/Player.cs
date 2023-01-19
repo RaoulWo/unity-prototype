@@ -30,16 +30,13 @@ public class Player : MonoBehaviour, IPlayer
     private PlayerState _previousState;
 
     public CrouchingState CrouchingState { get; private set; }
-
     public JumpingState JumpingState { get; private set; }
-
     public RunningState RunningState { get; private set; }
-
     public SneakingState SneakingState { get; private set; }
-
     public StandingState StandingState { get; private set; }
-
     public WalkingState WalkingState { get; private set; }
+
+    private bool _stateIsInitialized;
 
     private void Awake()
     {
@@ -92,12 +89,20 @@ public class Player : MonoBehaviour, IPlayer
 
     public void InitializeState(PlayerState startingPlayerState)
     {
+        if (_stateIsInitialized) return;
+        if (startingPlayerState == null) return;
+        
         _currentState = startingPlayerState;
         _currentState.Enter();
+
+        _stateIsInitialized = true;
     }
 
     public void ChangeState(PlayerState newPlayerState)
     {
+        if (!_stateIsInitialized) return;
+        if (newPlayerState == null) return;
+        
         _currentState.Exit();
 
         _previousState = _currentState;
