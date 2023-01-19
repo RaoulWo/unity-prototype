@@ -29,7 +29,6 @@ public class JumpingState : PlayerState
     {
         if (Player.Controller.isGrounded && Player.Controller.velocity.x == 0f && Player.Controller.velocity.z == 0f)
         {
-
             if (Player.PreviousState == Player.CrouchingState || Player.PreviousState == Player.SneakingState)
             {
                 Player.ChangeState(Player.CrouchingState);

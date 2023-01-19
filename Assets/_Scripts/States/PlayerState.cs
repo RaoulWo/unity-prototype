@@ -1,4 +1,4 @@
-public class PlayerState
+public abstract class PlayerState
 {
     protected readonly IPlayer Player;
 

@@ -1,6 +1,6 @@
 using UnityEngine.InputSystem;
 
-public class GroundedState : PlayerState
+public abstract class GroundedState : PlayerState
 {
     protected GroundedState(IPlayer player) 
         : base(player)
