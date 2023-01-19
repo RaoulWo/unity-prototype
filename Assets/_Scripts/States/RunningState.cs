@@ -12,8 +12,6 @@ public class RunningState : GroundedState
     
     public override void Enter()
     {
-        Debug.Log("Enter RunningState");
-        
         PlayerInputActions.Player.Crouch.performed += OnCrouch;
         PlayerInputActions.Player.Run.performed += OnRun;
 
@@ -49,8 +47,6 @@ public class RunningState : GroundedState
 
     public override void Exit()
     {
-        Debug.Log("Exit RunningState");
-        
         PlayerInputActions.Player.Crouch.performed -= OnCrouch;
         PlayerInputActions.Player.Run.performed -= OnRun;
         
@@ -60,8 +56,6 @@ public class RunningState : GroundedState
     
     private void OnCrouch(InputAction.CallbackContext context)
     {
-        Debug.Log("OnCrouch is called");
-
         if (_movementInput != Vector2.zero)
         {
             Player.ChangeState(Player.SneakingState);
@@ -74,8 +68,6 @@ public class RunningState : GroundedState
 
     private void OnRun(InputAction.CallbackContext context)
     {
-        Debug.Log("OnRun is called");
-
         if (_movementInput != Vector2.zero)
         {
             Player.ChangeState(Player.WalkingState);

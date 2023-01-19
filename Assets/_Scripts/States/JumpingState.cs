@@ -4,7 +4,6 @@ public class JumpingState : PlayerState
 {
     private Vector3 _movementDir;
     private Vector2 _movementInput;
-
     private float _speed;
     
     public JumpingState(Player player, PlayerInputActions playerInputActions)
@@ -13,8 +12,6 @@ public class JumpingState : PlayerState
     
     public override void Enter()
     {
-        Debug.Log("Enter JumpingState");
-        
         // Set _speed
         _speed = GetSpeed();
         
@@ -79,7 +76,7 @@ public class JumpingState : PlayerState
 
     public override void Exit()
     {
-        Debug.Log("Exit JumpingState");
+        
     }
 
     private float GetSpeed()

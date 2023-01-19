@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    /* ---- MOVEMENT VARIABLES ---- */
+    public CharacterController Controller => _controller;
+    private CharacterController _controller;
+    
+    private PlayerInputActions _playerInputActions;
+
     public float AirControl => airControl;
     public float Gravity => gravity;
     public float JumpHeight => jumpHeight;
@@ -16,14 +20,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float runningSpeed = 10f;
     [SerializeField] private float sneakingSpeed = 2f;
     [SerializeField] private float walkingSpeed = 5f;
-
-    /* ---- INPUT SYSTEM ---- */
-    private PlayerInputActions _playerInputActions;
-
-    /* ---- PLAYER STATES ---- */
+    
     public PlayerState CurrentState => _currentState;
     public PlayerState PreviousState => _previousState;
-    
     private PlayerState _currentState;
     private PlayerState _previousState;
 
@@ -34,11 +33,6 @@ public class Player : MonoBehaviour
     public StandingState StandingState;
     public WalkingState WalkingState;
 
-    public CharacterController Controller => _controller;
-    
-    private CharacterController _controller;
-    
-    #region "MonoBehaviour event functions"
     private void Awake()
     {
         // Cache a reference to the CharacterController
@@ -87,7 +81,6 @@ public class Player : MonoBehaviour
         _playerInputActions.Player.Crouch.Disable();
         _playerInputActions.Player.Run.Disable();
     }
-    #endregion
 
     private void InitializeState(PlayerState startingPlayerState)
     {

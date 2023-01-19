@@ -12,8 +12,6 @@ public class SneakingState : GroundedState
     
     public override void Enter()
     {
-        Debug.Log("Enter SneakingState");
-        
         PlayerInputActions.Player.Crouch.performed += OnCrouch;
         PlayerInputActions.Player.Run.performed += OnRun;
 
@@ -49,8 +47,6 @@ public class SneakingState : GroundedState
 
     public override void Exit()
     {
-        Debug.Log("Exit SneakingState");
-        
         PlayerInputActions.Player.Crouch.performed -= OnCrouch;
         PlayerInputActions.Player.Run.performed -= OnRun;
 
@@ -60,8 +56,6 @@ public class SneakingState : GroundedState
 
     private void OnCrouch(InputAction.CallbackContext context)
     {
-        Debug.Log("OnCrouch is called");
-
         if (_movementInput != Vector2.zero)
         {
             Player.ChangeState(Player.WalkingState);
@@ -74,8 +68,6 @@ public class SneakingState : GroundedState
 
     private void OnRun(InputAction.CallbackContext context)
     {
-        Debug.Log("OnRun is called");
-
         if (_movementInput != Vector2.zero)
         {
             Player.ChangeState(Player.RunningState);

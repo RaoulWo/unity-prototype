@@ -12,8 +12,6 @@ public class CrouchingState : GroundedState
     
     public override void Enter()
     {
-        Debug.Log("Enter CrouchingState");
-        
         PlayerInputActions.Player.Crouch.performed += OnCrouch;
         PlayerInputActions.Player.Run.performed += OnRun;
 
@@ -42,8 +40,6 @@ public class CrouchingState : GroundedState
 
     public override void Exit()
     {
-        Debug.Log("Exit CrouchingState");
-
         PlayerInputActions.Player.Crouch.performed -= OnCrouch;
         PlayerInputActions.Player.Run.performed -= OnRun;
         
@@ -53,8 +49,6 @@ public class CrouchingState : GroundedState
 
     private void OnCrouch(InputAction.CallbackContext context)
     {
-        Debug.Log("OnCrouch is called");
-        
         if (_movementInput == Vector2.zero)
         {
             Player.ChangeState(Player.StandingState);
@@ -67,8 +61,6 @@ public class CrouchingState : GroundedState
 
     private void OnRun(InputAction.CallbackContext context)
     {
-        Debug.Log("OnRun is called");
-
         if (_movementInput != Vector2.zero)
         {
             Player.ChangeState(Player.RunningState);

@@ -1,9 +1,9 @@
 public class PlayerState
 {
-    protected Player Player;
-    protected PlayerInputActions PlayerInputActions;
+    protected readonly Player Player;
+    protected readonly PlayerInputActions PlayerInputActions;
 
-    public PlayerState(Player player, PlayerInputActions playerInputActions)
+    protected PlayerState(Player player, PlayerInputActions playerInputActions)
     {
         Player = player;
         PlayerInputActions = playerInputActions;

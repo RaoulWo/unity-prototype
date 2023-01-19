@@ -9,8 +9,6 @@ public class GroundedState : PlayerState
     
     public override void Enter()
     {
-        Debug.Log("Enter GroundedState");
-
         PlayerInputActions.Player.Jump.performed += OnJump;
     }
 
@@ -31,15 +29,11 @@ public class GroundedState : PlayerState
 
     public override void Exit()
     {
-        Debug.Log("Exit GroundedState");
-
         PlayerInputActions.Player.Jump.performed -= OnJump;
     }
 
     private void OnJump(InputAction.CallbackContext context)
     {
-        Debug.Log("OnJump is called");
-        
         Player.ChangeState(Player.JumpingState);
     }
 }
