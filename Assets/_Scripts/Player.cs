@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
         _playerInputActions.Player.Run.Disable();
     }
 
-    private void InitializeState(PlayerState startingPlayerState)
+    public void InitializeState(PlayerState startingPlayerState)
     {
         _currentState = startingPlayerState;
         _currentState.Enter();
