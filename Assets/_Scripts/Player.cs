@@ -8,6 +8,8 @@ public class Player : MonoBehaviour, IPlayer
     public CharacterController Controller => _controller;
     private CharacterController _controller;
 
+    public Transform Transform => this.transform;
+
     public float AirControl => airControl;
     public float Gravity => gravity;
     public float JumpHeight => jumpHeight;
@@ -27,12 +29,17 @@ public class Player : MonoBehaviour, IPlayer
     private PlayerState _currentState;
     private PlayerState _previousState;
 
-    public CrouchingState CrouchingState;
-    public JumpingState JumpingState;
-    public RunningState RunningState;
-    public SneakingState SneakingState;
-    public StandingState StandingState;
-    public WalkingState WalkingState;
+    public CrouchingState CrouchingState { get; private set; }
+
+    public JumpingState JumpingState { get; private set; }
+
+    public RunningState RunningState { get; private set; }
+
+    public SneakingState SneakingState { get; private set; }
+
+    public StandingState StandingState { get; private set; }
+
+    public WalkingState WalkingState { get; private set; }
 
     private void Awake()
     {

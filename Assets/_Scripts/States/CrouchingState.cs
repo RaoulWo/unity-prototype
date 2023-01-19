@@ -6,7 +6,7 @@ public class CrouchingState : GroundedState
     // The cached value of the input action Move
     private Vector2 _movementInput;
     
-    public CrouchingState(Player player) 
+    public CrouchingState(IPlayer player) 
         : base(player)
     { }
     

@@ -1,8 +1,8 @@
 public class PlayerState
 {
-    protected readonly Player Player;
+    protected readonly IPlayer Player;
 
-    protected PlayerState(Player player)
+    protected PlayerState(IPlayer player)
     {
         Player = player;
     }

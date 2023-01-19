@@ -6,7 +6,7 @@ public class JumpingState : PlayerState
     private Vector2 _movementInput;
     private float _speed;
     
-    public JumpingState(Player player)
+    public JumpingState(IPlayer player)
         : base(player)
     { }
     
@@ -112,7 +112,7 @@ public class JumpingState : PlayerState
         var movementVector = _movementDir * Time.deltaTime;
         
         // Transform the vector from local to global coordinates
-        movementVector = Player.transform.TransformDirection(movementVector);
+        movementVector = Player.Transform.TransformDirection(movementVector);
         
         // Move the player controller
         Player.Controller.Move(movementVector);

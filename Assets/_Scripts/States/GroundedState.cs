@@ -2,7 +2,7 @@ using UnityEngine.InputSystem;
 
 public class GroundedState : PlayerState
 {
-    protected GroundedState(Player player) 
+    protected GroundedState(IPlayer player) 
         : base(player)
     { }
     

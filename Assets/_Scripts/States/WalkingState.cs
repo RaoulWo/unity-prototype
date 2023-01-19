@@ -6,7 +6,7 @@ public class WalkingState : GroundedState
     // The cached value of the input action Move
     private Vector2 _movementInput;
 
-    public WalkingState(Player player) 
+    public WalkingState(IPlayer player) 
         : base(player)
     { }
     
@@ -39,7 +39,7 @@ public class WalkingState : GroundedState
         var movementVector = new Vector3(_movementInput.x, 0f, _movementInput.y) * (Player.WalkingSpeed * Time.deltaTime);
         
         // Transform the vector from local to global coordinates
-        movementVector = Player.transform.TransformDirection(movementVector);
+        movementVector = Player.Transform.TransformDirection(movementVector);
 
         // Move the player controller
         Player.Controller.Move(movementVector);

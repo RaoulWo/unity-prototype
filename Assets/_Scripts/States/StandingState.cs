@@ -6,7 +6,7 @@ public class StandingState : GroundedState
     // The cached value of the input action Move
     private Vector2 _movementInput;
 
-    public StandingState(Player player) 
+    public StandingState(IPlayer player) 
         : base(player)
     { }
     
