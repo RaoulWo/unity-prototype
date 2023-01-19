@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IPlayer
 {
     public PlayerInputActions PlayerInputActions => _playerInputActions;
     private PlayerInputActions _playerInputActions;
