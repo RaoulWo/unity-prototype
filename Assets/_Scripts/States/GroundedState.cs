@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public abstract class GroundedState : PlayerState
@@ -8,6 +9,8 @@ public abstract class GroundedState : PlayerState
     
     public override void Enter()
     {
+        Debug.Log("Enter GroundedState");
+        
         Player.PlayerInputActions.Player.Jump.performed += OnJump;
     }
 
@@ -18,7 +21,10 @@ public abstract class GroundedState : PlayerState
 
     public override void LogicUpdate()
     {
-        
+        if (!Player.Controller.isGrounded)
+        {
+            Player.ChangeState(Player.FallingState);
+        }
     }
 
     public override void PhysicsUpdate()
@@ -28,6 +34,8 @@ public abstract class GroundedState : PlayerState
 
     public override void Exit()
     {
+        Debug.Log("Exit GroundedState");
+
         Player.PlayerInputActions.Player.Jump.performed -= OnJump;
     }
 

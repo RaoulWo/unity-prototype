@@ -1,22 +1,22 @@
 using UnityEngine;
 
-public class JumpingState : InAirState
+public class FallingState : InAirState
 {
+    public FallingState(IPlayer player) 
+        : base(player)
+    { }
+
     private Vector3 _movementDir;
     private Vector2 _movementInput;
     
-    public JumpingState(IPlayer player)
-        : base(player)
-    { }
-    
     public override void Enter()
     {
-        Debug.Log("Enter JumpingState");
-
+        Debug.Log("Enter FallingState");
+        
         Speed = GetSpeed();
         
-        // Start the jump
-        Jump();
+        // Start the fall
+        Fall();
     }
 
     public override void HandleInput()
@@ -75,16 +75,17 @@ public class JumpingState : InAirState
 
     public override void Exit()
     {
-        Debug.Log("Exit JumpingState");
+        Debug.Log("Exit FallingState");
+
     }
 
-    private void Jump()
+    private void Fall()
     {
         // Cache the value of the input action Move
         var movementInput = Player.PlayerInputActions.Player.Move.ReadValue<Vector2>();
 
         // Store the movement direction
-        _movementDir = new Vector3(movementInput.x * Speed, Mathf.Sqrt(2 * Player.Gravity * Player.JumpHeight),
+        _movementDir = new Vector3(movementInput.x * Speed, 0f,
             movementInput.y * Speed);
 
         // Calculate the movement vector

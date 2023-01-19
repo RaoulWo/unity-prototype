@@ -10,6 +10,8 @@ public class Player : MonoBehaviour, IPlayer
 
     public Transform Transform => this.transform;
 
+    public GameObject globe;
+
     public float AirControl => airControl;
     public float Gravity => gravity;
     public float JumpHeight => jumpHeight;
@@ -17,6 +19,7 @@ public class Player : MonoBehaviour, IPlayer
     public float SneakingSpeed => sneakingSpeed;
     public float WalkingSpeed => walkingSpeed;
 
+    [Header("PLAYER MOVEMENT")]
     [SerializeField] private float airControl = 5f;
     [SerializeField] private float gravity = 10f;
     [SerializeField] private float jumpHeight = 2f;
@@ -30,6 +33,7 @@ public class Player : MonoBehaviour, IPlayer
     private PlayerState _previousState;
 
     public CrouchingState CrouchingState { get; private set; }
+    public FallingState FallingState { get; private set; }
     public JumpingState JumpingState { get; private set; }
     public RunningState RunningState { get; private set; }
     public SneakingState SneakingState { get; private set; }
@@ -48,6 +52,7 @@ public class Player : MonoBehaviour, IPlayer
         
         // Instantiate the player states
         CrouchingState = new CrouchingState(this);
+        FallingState = new FallingState(this);
         JumpingState = new JumpingState(this);
         RunningState = new RunningState(this);
         SneakingState = new SneakingState(this);

@@ -27,6 +27,8 @@ public class CrouchingState : GroundedState
 
     public override void LogicUpdate()
     {
+        base.LogicUpdate();
+        
         if (_movementInput != Vector2.zero)
         {
             Player.ChangeState(Player.SneakingState);

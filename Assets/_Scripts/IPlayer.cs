@@ -16,6 +16,7 @@ public interface IPlayer
     PlayerState CurrentState { get; }
     PlayerState PreviousState { get; }
     public CrouchingState CrouchingState { get; }
+    public FallingState FallingState { get; }
     public JumpingState JumpingState { get; }
     public RunningState RunningState { get; }
     public SneakingState SneakingState { get; }

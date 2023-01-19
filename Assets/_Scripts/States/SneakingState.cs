@@ -27,6 +27,8 @@ public class SneakingState : GroundedState
 
     public override void LogicUpdate()
     {
+        base.LogicUpdate();
+        
         if (Player.Controller.velocity == Vector3.zero)
         {
             Player.ChangeState(Player.CrouchingState);
