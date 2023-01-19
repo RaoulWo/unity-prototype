@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public PlayerInputActions PlayerInputActions => _playerInputActions;
+    private PlayerInputActions _playerInputActions;
+    
     public CharacterController Controller => _controller;
     private CharacterController _controller;
-    
-    private PlayerInputActions _playerInputActions;
 
     public float AirControl => airControl;
     public float Gravity => gravity;
@@ -42,12 +43,12 @@ public class Player : MonoBehaviour
         _playerInputActions = new PlayerInputActions();
         
         // Instantiate the player states
-        CrouchingState = new CrouchingState(this, _playerInputActions);
-        JumpingState = new JumpingState(this, _playerInputActions);
-        RunningState = new RunningState(this, _playerInputActions);
-        SneakingState = new SneakingState(this, _playerInputActions);
-        StandingState = new StandingState(this, _playerInputActions);
-        WalkingState = new WalkingState(this, _playerInputActions);
+        CrouchingState = new CrouchingState(this);
+        JumpingState = new JumpingState(this);
+        RunningState = new RunningState(this);
+        SneakingState = new SneakingState(this);
+        StandingState = new StandingState(this);
+        WalkingState = new WalkingState(this);
 
         // Initialize the player in StandingState
         InitializeState(StandingState);

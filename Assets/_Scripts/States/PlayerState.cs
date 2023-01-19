@@ -1,12 +1,10 @@
 public class PlayerState
 {
     protected readonly Player Player;
-    protected readonly PlayerInputActions PlayerInputActions;
 
-    protected PlayerState(Player player, PlayerInputActions playerInputActions)
+    protected PlayerState(Player player)
     {
         Player = player;
-        PlayerInputActions = playerInputActions;
     }
 
     public virtual void Enter()

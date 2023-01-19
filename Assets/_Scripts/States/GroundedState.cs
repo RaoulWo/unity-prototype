@@ -1,15 +1,14 @@
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GroundedState : PlayerState
 {
-    public GroundedState(Player player, PlayerInputActions playerInputActions) 
-        : base(player, playerInputActions)
+    protected GroundedState(Player player) 
+        : base(player)
     { }
     
     public override void Enter()
     {
-        PlayerInputActions.Player.Jump.performed += OnJump;
+        Player.PlayerInputActions.Player.Jump.performed += OnJump;
     }
 
     public override void HandleInput()
@@ -29,7 +28,7 @@ public class GroundedState : PlayerState
 
     public override void Exit()
     {
-        PlayerInputActions.Player.Jump.performed -= OnJump;
+        Player.PlayerInputActions.Player.Jump.performed -= OnJump;
     }
 
     private void OnJump(InputAction.CallbackContext context)

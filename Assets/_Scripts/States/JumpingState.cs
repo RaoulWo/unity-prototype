@@ -6,8 +6,8 @@ public class JumpingState : PlayerState
     private Vector2 _movementInput;
     private float _speed;
     
-    public JumpingState(Player player, PlayerInputActions playerInputActions)
-        : base(player, playerInputActions)
+    public JumpingState(Player player)
+        : base(player)
     { }
     
     public override void Enter()
@@ -22,7 +22,7 @@ public class JumpingState : PlayerState
     public override void HandleInput()
     {
         // Store value of the input action Move
-        _movementInput = PlayerInputActions.Player.Move.ReadValue<Vector2>();
+        _movementInput = Player.PlayerInputActions.Player.Move.ReadValue<Vector2>();
     }
 
     public override void LogicUpdate()
@@ -102,7 +102,7 @@ public class JumpingState : PlayerState
     private void Jump()
     {
         // Cache the value of the input action Move
-        var movementInput = PlayerInputActions.Player.Move.ReadValue<Vector2>();
+        var movementInput = Player.PlayerInputActions.Player.Move.ReadValue<Vector2>();
 
         // Store the movement direction
         _movementDir = new Vector3(movementInput.x * _speed, Mathf.Sqrt(2 * Player.Gravity * Player.JumpHeight),

@@ -6,14 +6,14 @@ public class WalkingState : GroundedState
     // The cached value of the input action Move
     private Vector2 _movementInput;
 
-    public WalkingState(Player player, PlayerInputActions playerInputActions) 
-        : base(player, playerInputActions)
+    public WalkingState(Player player) 
+        : base(player)
     { }
     
     public override void Enter()
     {
-        PlayerInputActions.Player.Crouch.performed += OnCrouch;
-        PlayerInputActions.Player.Run.performed += OnRun;
+        Player.PlayerInputActions.Player.Crouch.performed += OnCrouch;
+        Player.PlayerInputActions.Player.Run.performed += OnRun;
         
         // Call Enter method of GroundedState
         base.Enter();
@@ -22,7 +22,7 @@ public class WalkingState : GroundedState
     public override void HandleInput()
     {
         // Store value of the input action Move
-        _movementInput = PlayerInputActions.Player.Move.ReadValue<Vector2>();
+        _movementInput = Player.PlayerInputActions.Player.Move.ReadValue<Vector2>();
     }
 
     public override void LogicUpdate()
@@ -47,8 +47,8 @@ public class WalkingState : GroundedState
 
     public override void Exit()
     {
-        PlayerInputActions.Player.Crouch.performed -= OnCrouch;
-        PlayerInputActions.Player.Run.performed -= OnRun;
+        Player.PlayerInputActions.Player.Crouch.performed -= OnCrouch;
+        Player.PlayerInputActions.Player.Run.performed -= OnRun;
         
         // Call Exit method of GroundedState
         base.Exit();
