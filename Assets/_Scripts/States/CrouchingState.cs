@@ -37,7 +37,14 @@ public class CrouchingState : GroundedState
 
     public override void PhysicsUpdate()
     {
+        // Calculate the movement vector
+        var movementVector = new Vector3(0, -Player.Gravity * Time.deltaTime, 0);
+        
+        // Transform the vector from local to global coordinates
+        movementVector = Player.Transform.TransformDirection(movementVector);
 
+        // Move the player controller
+        Player.Controller.Move(movementVector);
     }
 
     public override void Exit()

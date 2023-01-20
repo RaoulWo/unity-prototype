@@ -21,7 +21,7 @@ public abstract class GroundedState : PlayerState
 
     public override void LogicUpdate()
     {
-        if (!Player.Controller.isGrounded)
+        if (!Player.IsGrounded)
         {
             Player.ChangeState(Player.FallingState);
         }
@@ -29,7 +29,7 @@ public abstract class GroundedState : PlayerState
 
     public override void PhysicsUpdate()
     {
-        
+
     }
 
     public override void Exit()

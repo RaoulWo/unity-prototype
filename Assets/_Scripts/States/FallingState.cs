@@ -27,7 +27,7 @@ public class FallingState : InAirState
 
     public override void LogicUpdate()
     {
-        if (Player.Controller.isGrounded && Player.Controller.velocity.x == 0f && Player.Controller.velocity.z == 0f)
+        if (Player.IsGrounded && Player.Controller.velocity.x == 0f && Player.Controller.velocity.z == 0f)
         {
             if (Player.PreviousState == Player.CrouchingState || Player.PreviousState == Player.SneakingState)
             {
@@ -36,7 +36,7 @@ public class FallingState : InAirState
             
             Player.ChangeState(Player.StandingState);
         }
-        else if (Player.Controller.isGrounded && Player.Controller.velocity != Vector3.zero)
+        else if (Player.IsGrounded && Player.Controller.velocity != Vector3.zero)
         {
             if (Player.PreviousState == Player.StandingState || Player.PreviousState == Player.WalkingState)
             {

@@ -12,6 +12,7 @@ public interface IPlayer
     float RunningSpeed { get; }
     float SneakingSpeed { get; }
     float WalkingSpeed { get; }
+    bool IsGrounded { get; }
     
     PlayerState CurrentState { get; }
     PlayerState PreviousState { get; }

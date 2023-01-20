@@ -9,15 +9,14 @@ public class Player : MonoBehaviour, IPlayer
     private CharacterController _controller;
 
     public Transform Transform => this.transform;
-
-    public GameObject globe;
-
+    
     public float AirControl => airControl;
     public float Gravity => gravity;
     public float JumpHeight => jumpHeight;
     public float RunningSpeed => runningSpeed;
     public float SneakingSpeed => sneakingSpeed;
     public float WalkingSpeed => walkingSpeed;
+    public bool IsGrounded => _controller.isGrounded;
 
     [Header("PLAYER MOVEMENT")]
     [SerializeField] private float airControl = 5f;
@@ -46,7 +45,7 @@ public class Player : MonoBehaviour, IPlayer
     {
         // Cache a reference to the CharacterController
         _controller = GetComponent<CharacterController>();
-
+        
         // Instantiate a new instance of the input action asset
         _playerInputActions = new PlayerInputActions();
         

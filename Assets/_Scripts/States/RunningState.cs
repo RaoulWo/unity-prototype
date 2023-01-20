@@ -39,7 +39,8 @@ public class RunningState : GroundedState
     {
         // Calculate the movement vector
         var movementVector = new Vector3(_movementInput.x, 0f, _movementInput.y) * (Player.RunningSpeed * Time.deltaTime);
-        
+        movementVector.y -= Player.Gravity * Time.deltaTime;
+
         // Transform the vector from local to global coordinates
         movementVector = Player.Transform.TransformDirection(movementVector);
 
