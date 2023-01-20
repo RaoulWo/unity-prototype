@@ -1,34 +1,37 @@
-public abstract class PlayerState
+namespace _Scripts.States
 {
-    protected readonly IPlayer Player;
-
-    protected PlayerState(IPlayer player)
+    public abstract class PlayerState
     {
-        Player = player;
-    }
+        protected readonly IPlayer Player;
 
-    public virtual void Enter()
-    {
+        protected PlayerState(IPlayer player)
+        {
+            Player = player;
+        }
+
+        public virtual void Enter()
+        {
         
-    }
+        }
 
-    public virtual void HandleInput()
-    {
+        public virtual void HandleInput()
+        {
         
-    }
+        }
 
-    public virtual void LogicUpdate()
-    {
+        public virtual void LogicUpdate()
+        {
         
-    }
+        }
 
-    public virtual void PhysicsUpdate()
-    {
+        public virtual void PhysicsUpdate()
+        {
         
-    }
+        }
 
-    public virtual void Exit()
-    {
+        public virtual void Exit()
+        {
         
+        }
     }
 }

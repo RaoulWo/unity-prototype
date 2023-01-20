@@ -1,29 +1,33 @@
-﻿using UnityEngine;
+﻿using _Scripts.States;
+using UnityEngine;
 
-public interface IPlayer
+namespace _Scripts
 {
-    PlayerInputActions PlayerInputActions { get; }
-    CharacterController Controller { get; }
-    Transform Transform { get; }
+    public interface IPlayer
+    {
+        PlayerInputActions PlayerInputActions { get; }
+        CharacterController Controller { get; }
+        Transform Transform { get; }
     
-    float AirControl { get; }
-    float Gravity { get; }
-    float JumpHeight { get; }
-    float RunningSpeed { get; }
-    float SneakingSpeed { get; }
-    float WalkingSpeed { get; }
-    bool IsGrounded { get; }
+        float AirControl { get; }
+        float Gravity { get; }
+        float JumpHeight { get; }
+        float RunningSpeed { get; }
+        float SneakingSpeed { get; }
+        float WalkingSpeed { get; }
+        bool IsGrounded { get; }
     
-    PlayerState CurrentState { get; }
-    PlayerState PreviousState { get; }
-    public CrouchingState CrouchingState { get; }
-    public FallingState FallingState { get; }
-    public JumpingState JumpingState { get; }
-    public RunningState RunningState { get; }
-    public SneakingState SneakingState { get; }
-    public StandingState StandingState { get; }
-    public WalkingState WalkingState { get; }
+        PlayerState CurrentState { get; }
+        PlayerState PreviousState { get; }
+        public CrouchingState CrouchingState { get; }
+        public FallingState FallingState { get; }
+        public JumpingState JumpingState { get; }
+        public RunningState RunningState { get; }
+        public SneakingState SneakingState { get; }
+        public StandingState StandingState { get; }
+        public WalkingState WalkingState { get; }
     
-    void InitializeState(PlayerState startingPlayerState);
-    void ChangeState(PlayerState newPlayerState);
+        void InitializeState(PlayerState startingPlayerState);
+        void ChangeState(PlayerState newPlayerState);
+    }
 }

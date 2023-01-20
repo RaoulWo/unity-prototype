@@ -1,55 +1,56 @@
-using UnityEngine.InputSystem;
-
-public abstract class InAirState : PlayerState
+namespace _Scripts.States
 {
-    protected float Speed;
+    public abstract class InAirState : PlayerState
+    {
+        protected float Speed;
     
-    protected InAirState(IPlayer player) 
-        : base(player)
-    { }
+        protected InAirState(IPlayer player) 
+            : base(player)
+        { }
     
-    public override void Enter()
-    {
-        
-    }
-
-    public override void HandleInput()
-    {
-        
-    }
-
-    public override void LogicUpdate()
-    {
-
-    }
-
-    public override void PhysicsUpdate()
-    {
-        
-    }
-
-    public override void Exit()
-    {
-        
-    }
-    
-    protected float GetSpeed()
-    {
-        if (Player.PreviousState == Player.RunningState)
+        public override void Enter()
         {
-            return Player.RunningSpeed;
+        
         }
 
-        if (Player.PreviousState == Player.SneakingState)
+        public override void HandleInput()
         {
-            return Player.SneakingSpeed;
+        
         }
 
-        if (Player.PreviousState == Player.WalkingState)
+        public override void LogicUpdate()
         {
-            return Player.WalkingSpeed;
+
         }
 
-        return 0f;
+        public override void PhysicsUpdate()
+        {
+        
+        }
+
+        public override void Exit()
+        {
+        
+        }
+    
+        protected float GetSpeed()
+        {
+            if (Player.PreviousState == Player.RunningState)
+            {
+                return Player.RunningSpeed;
+            }
+
+            if (Player.PreviousState == Player.SneakingState)
+            {
+                return Player.SneakingSpeed;
+            }
+
+            if (Player.PreviousState == Player.WalkingState)
+            {
+                return Player.WalkingSpeed;
+            }
+
+            return 0f;
+        }
     }
 }

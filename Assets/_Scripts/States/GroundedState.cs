@@ -1,46 +1,49 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public abstract class GroundedState : PlayerState
+namespace _Scripts.States
 {
-    protected GroundedState(IPlayer player) 
-        : base(player)
-    { }
+    public abstract class GroundedState : PlayerState
+    {
+        protected GroundedState(IPlayer player) 
+            : base(player)
+        { }
     
-    public override void Enter()
-    {
-        Debug.Log("Enter GroundedState");
-        
-        Player.PlayerInputActions.Player.Jump.performed += OnJump;
-    }
-
-    public override void HandleInput()
-    {
-        
-    }
-
-    public override void LogicUpdate()
-    {
-        if (!Player.IsGrounded)
+        public override void Enter()
         {
-            Player.ChangeState(Player.FallingState);
+            Debug.Log("Enter GroundedState");
+        
+            Player.PlayerInputActions.Player.Jump.performed += OnJump;
         }
-    }
 
-    public override void PhysicsUpdate()
-    {
+        public override void HandleInput()
+        {
+        
+        }
 
-    }
+        public override void LogicUpdate()
+        {
+            if (!Player.IsGrounded)
+            {
+                Player.ChangeState(Player.FallingState);
+            }
+        }
 
-    public override void Exit()
-    {
-        Debug.Log("Exit GroundedState");
+        public override void PhysicsUpdate()
+        {
 
-        Player.PlayerInputActions.Player.Jump.performed -= OnJump;
-    }
+        }
 
-    private void OnJump(InputAction.CallbackContext context)
-    {
-        Player.ChangeState(Player.JumpingState);
+        public override void Exit()
+        {
+            Debug.Log("Exit GroundedState");
+
+            Player.PlayerInputActions.Player.Jump.performed -= OnJump;
+        }
+
+        private void OnJump(InputAction.CallbackContext context)
+        {
+            Player.ChangeState(Player.JumpingState);
+        }
     }
 }
