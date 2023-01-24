@@ -11,7 +11,7 @@ namespace _Scripts
         public CharacterController Controller => _controller;
         private CharacterController _controller;
 
-        public Transform Transform => this.transform;
+        public Transform Transform => transform;
     
         public float AirControl => airControl;
         public float Gravity => gravity;
