@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Debug = System.Diagnostics.Debug;
 
 namespace _Scripts.Hex.Core
@@ -30,7 +29,35 @@ namespace _Scripts.Hex.Core
             v = new Vector3(q, r, s);
         }
 
-        public static Hex Round(FractionalHex hex)
+        public static FractionalHex Round(FractionalHex hex)
+        {
+            var q = Mathf.RoundToInt(hex.Q);
+            var r = Mathf.RoundToInt(hex.R);
+            var s = Mathf.RoundToInt(hex.S);
+            var qDiff = Mathf.Abs(q - hex.Q);
+            var rDiff = Mathf.Abs(r - hex.R);
+            var sDiff = Mathf.Abs(s - hex.S);
+
+            if (qDiff > rDiff && qDiff > sDiff)
+            {
+                q = -r - s;
+            }
+            else
+            {
+                if (rDiff > sDiff)
+                {
+                    r = -q - s;
+                }
+                else
+                {
+                    s = -q - r;
+                }
+            }
+
+            return new FractionalHex(q, r, s);
+        }
+
+        public static Hex RoundToHex(FractionalHex hex)
         {
             var q = Mathf.RoundToInt(hex.Q);
             var r = Mathf.RoundToInt(hex.R);
@@ -57,31 +84,36 @@ namespace _Scripts.Hex.Core
 
             return new Hex(q, r, s);
         }
-
-        public static FractionalHex Lerp(FractionalHex source, FractionalHex target, float t)
+        
+        public FractionalHex Round()
         {
-            return new FractionalHex(source.Q * (1f - t) + target.Q * t, source.R * (1f - t) + target.R * t,
-                source.S * (1f - t) + target.S * t);
-        }
+            var q = Mathf.RoundToInt(Q);
+            var r = Mathf.RoundToInt(R);
+            var s = Mathf.RoundToInt(S);
+            var qDiff = Mathf.Abs(q - Q);
+            var rDiff = Mathf.Abs(r - R);
+            var sDiff = Mathf.Abs(s - S);
 
-        public static List<Hex> DrawLine(Hex left, Hex right)
-        {
-            var results = new List<Hex>();
-            
-            var n = left.Distance(right);
-            var leftNudge = new FractionalHex(left.Q + (float)1e-06, left.R + (float)1e-6, left.S - (float)2e-6);
-            var rightNudge = new FractionalHex(right.Q + (float)1e-06, right.R + (float)1e-6, right.S - (float)2e-6);
-            var step = 1f / Mathf.Max(n, 1);
-            
-            for (var i = 0; i <= n; i++)
+            if (qDiff > rDiff && qDiff > sDiff)
             {
-                results.Add(Round(Lerp(leftNudge, rightNudge, step * i)));
+                q = -r - s;
+            }
+            else
+            {
+                if (rDiff > sDiff)
+                {
+                    r = -q - s;
+                }
+                else
+                {
+                    s = -q - r;
+                }
             }
 
-            return results;
+            return new FractionalHex(q, r, s);
         }
-        
-        public Hex Round()
+
+        public Hex RoundToHex()
         {
             var q = Mathf.RoundToInt(Q);
             var r = Mathf.RoundToInt(R);
@@ -107,12 +139,6 @@ namespace _Scripts.Hex.Core
             }
 
             return new Hex(q, r, s);
-        }
-
-        public FractionalHex Lerp(FractionalHex target, float t)
-        {
-            return new FractionalHex(Q * (1f - t) + target.Q * t, R * (1f - t) + target.R * t,
-                S * (1f - t) + target.S * t);
         }
     }
 }

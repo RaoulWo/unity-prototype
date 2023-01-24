@@ -1,5 +1,7 @@
+using _Scripts.Hex;
 using _Scripts.States;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Scripts
 {
@@ -44,6 +46,12 @@ namespace _Scripts
 
         private bool _stateIsInitialized;
 
+        public GameObject tileMapObj;
+        public TileMap tileMap;
+
+        private Tile previousHoveredTile;
+        private Tile currentHoveredTile;
+
         private void Awake()
         {
             // Cache a reference to the CharacterController
@@ -63,13 +71,38 @@ namespace _Scripts
 
             // Initialize the player in StandingState
             InitializeState(StandingState);
+
+            
+            
+            tileMap = tileMapObj.GetComponent<TileMap>();
         }
 
         private void Update()
         {
             _currentState.HandleInput();
             _currentState.LogicUpdate();
-        }
+
+            var lookInput = _playerInputActions.Player.Look.ReadValue<Vector2>();
+
+            Ray ray = Camera.main.ScreenPointToRay(lookInput);
+            if (Physics.Raycast(ray, out var hit, 100))
+            {
+                var pos = hit.transform.position;
+                
+                var fractionalHexPos = tileMap.Layout.PosToFractionalHex(new Vector2(pos.x, pos.z));
+                var hexPos = fractionalHexPos.RoundToHex();
+
+                Debug.Log((hexPos.Q, hexPos.R, hexPos.S));
+
+                previousHoveredTile = currentHoveredTile;
+                currentHoveredTile = tileMap.Get((hexPos.Q, hexPos.R));
+
+                if (previousHoveredTile != null)
+                    previousHoveredTile.GetComponent<MeshRenderer>().material = previousHoveredTile.gray;
+                if (currentHoveredTile != null)
+                    currentHoveredTile.GetComponent<MeshRenderer>().material = currentHoveredTile.yellow;
+            }
+            }
 
         private void FixedUpdate()
         {
@@ -83,6 +116,7 @@ namespace _Scripts
             _playerInputActions.Player.Jump.Enable();
             _playerInputActions.Player.Crouch.Enable();
             _playerInputActions.Player.Run.Enable();
+            _playerInputActions.Player.Look.Enable();
         }
 
         private void OnDisable()
@@ -92,6 +126,7 @@ namespace _Scripts
             _playerInputActions.Player.Jump.Disable();
             _playerInputActions.Player.Crouch.Disable();
             _playerInputActions.Player.Run.Disable();
+            _playerInputActions.Player.Look.Disable();
         }
 
         public void InitializeState(PlayerState startingPlayerState)

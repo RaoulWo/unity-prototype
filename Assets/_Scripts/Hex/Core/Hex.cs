@@ -7,7 +7,7 @@ namespace _Scripts.Hex.Core
 {
     public class Hex : IEquatable<Hex>
     {
-        private static readonly List<Hex> AdjacentDirections = new List<Hex>
+        private static readonly List<Hex> AdjacentDirections = new()
         {
             new Hex(1, 0 , -1),
             new Hex(1, -1, 0),
@@ -17,7 +17,7 @@ namespace _Scripts.Hex.Core
             new Hex(0, 1, -1)
         };
 
-        private static readonly List<Hex> DiagonalDirections = new List<Hex>
+        private static readonly List<Hex> DiagonalDirections = new()
         {
             new Hex(2, -1, -1),
             new Hex(1, -2, 1),
@@ -30,8 +30,8 @@ namespace _Scripts.Hex.Core
         public int Q => v.x;
         public int R => v.y;
         public int S => v.z;
-        
-        private readonly Vector3Int v;
+
+        private Vector3Int v;
 
         public Hex(Vector3Int v)
         {
@@ -206,6 +206,29 @@ namespace _Scripts.Hex.Core
             return results;
         }
 
+        public static List<Hex> DrawLine(Hex source, Hex target)
+        {
+            var results = new List<Hex>();
+            
+            var n = source.Distance(target);
+            var leftNudge = new FractionalHex(source.Q + (float)1e-06, source.R + (float)1e-6, source.S - (float)2e-6);
+            var rightNudge = new FractionalHex(target.Q + (float)1e-06, target.R + (float)1e-6, target.S - (float)2e-6);
+            var step = 1f / Mathf.Max(n, 1);
+            
+            for (var i = 0; i <= n; i++)
+            {
+                results.Add(FractionalHex.RoundToHex(Lerp(leftNudge, rightNudge, step * i)));
+            }
+
+            return results;
+        }
+
+        private static FractionalHex Lerp(FractionalHex source, FractionalHex target, float t)
+        {
+            return new FractionalHex(source.Q * (1f - t) + target.Q * t, source.R * (1f - t) + target.R * t,
+                source.S * (1f - t) + target.S * t);
+        }
+
         public Hex Add(Hex other)
         {
             return new Hex(v + other.v);
@@ -312,6 +335,23 @@ namespace _Scripts.Hex.Core
                 results.AddRange(Ring(ring));
             }
             
+            return results;
+        }
+        
+        public List<Hex> DrawLine(Hex target)
+        {
+            var results = new List<Hex>();
+            
+            var n = Distance(target);
+            var leftNudge = new FractionalHex(Q + (float)1e-06, R + (float)1e-6, S - (float)2e-6);
+            var rightNudge = new FractionalHex(target.Q + (float)1e-06, target.R + (float)1e-6, target.S - (float)2e-6);
+            var step = 1f / Mathf.Max(n, 1);
+            
+            for (var i = 0; i <= n; i++)
+            {
+                results.Add(FractionalHex.RoundToHex(Lerp(leftNudge, rightNudge, step * i)));
+            }
+
             return results;
         }
     }
